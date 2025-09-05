@@ -1,0 +1,26 @@
+.Top-Bar{
+  background-color: antiquewhite;
+  border: 3px solid black;
+}
+.logo{
+  float: left;
+  width: 20%;
+  height: 10%;
+}
+
+.Main-Menu{
+  background-color: rgb(243, 203, 151);
+  border: 3px solid black;
+}
+
+.Content{
+  background-color: rgb(243, 172, 80);
+  border: 3px solid black;
+}
+
+.Footer{
+  background-color: rgb(236, 147, 31);
+  border: 3px solid black;
+}
+
+
