@@ -1,16 +1,85 @@
 .Top-Bar{
-  background-color: antiquewhite;
+  background-color: #6e5c3c;
   border: 3px solid black;
+  height: 60px;
 }
 .logo{
+  border: 3px solid black;
+  width: 43%;
   float: left;
-  width: 20%;
-  height: 10%;
+  height: 95%;
+  /*overflow: hidden;*/
 }
+
+.logo-img{
+  /*border: 3px solid black;*/
+ 
+  /*overflow: hidden;*/
+}
+
+.logo-img img{
+  height: 40px;
+  margin-top: 10px;
+}
+
+.home{
+  border: 3px solid black;
+  width: 9%;
+  height: 95%;
+  color: white;
+  text-align: center;
+  float: left;
+}
+
+.the-club{
+  border: 3px solid black;
+  width: 9%;
+  height: 95%;
+  color: white;
+  text-align: center;
+  float: left;
+} 
+
+.members{
+  border: 3px solid black;
+  width: 9%;
+  height: 95%;
+  color: white;
+  text-align: center;
+  float: left;
+} 
+
+.news{
+  border: 3px solid black;
+  width: 9%;
+  height: 95%;
+  color: white;
+  text-align: center;
+  float: left;
+} 
+
+.join-us{
+  border: 3px solid black;
+  width: 9%;
+  height: 95%;
+  color: white;
+  text-align: center;
+  float: left;
+} 
+
+.buy-now{
+  border: 3px solid black;
+  width: 9%;
+  height: 95%;
+  color: white;
+  text-align: center;
+  float: left;
+} 
 
 .Main-Menu{
   background-color: rgb(243, 203, 151);
   border: 3px solid black;
+  clear: both;
 }
 
 .Content{
@@ -22,5 +91,4 @@
   background-color: rgb(236, 147, 31);
   border: 3px solid black;
 }
-
 
