@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - 1GOLF BeGOLF</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <img src="https://themes.muffingroup.com/be/golf/wp-content/uploads/2015/04/golf.png" alt="1GOLF Logo">
+            </div>
+            <nav class="navbar">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="product.html" class="nav-link">Shop</a>
+                <a href="cart.html" class="nav-link">Cart</a>
+                <a href="checkout.html" class="nav-link active">Checkout</a>
+                <a href="#" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Checkout Section -->
+    <section class="checkout-section">
+        <div class="container">
+            <h1 class="text-center">Checkout</h1>
+            <p class="text-center section-subtitle">Complete your purchase securely</p>
+            
+            <div class="checkout-grid">
+                <!-- Checkout Form -->
+                <div class="checkout-form">
+                    <form id="checkoutForm" novalidate>
+                        <!-- Billing Information -->
+                        <div class="form-section">
+                            <h3>Billing Information</h3>
+                            
+                            <!-- Full Name -->
+                            <div class="form-group">
+                                <label for="fullName" class="form-label">Full Name *</label>
+                                <input type="text" class="form-control" id="fullName" name="fullName" required>
+                                <div class="invalid-feedback">Please enter your full name (at least 3 characters).</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email Address *</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                                <div class="invalid-feedback">Please enter a valid email address.</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone" class="form-label">Phone Number *</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                                <div class="invalid-feedback">Please enter a valid phone number (digits only, at least 10 digits).</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="address" class="form-label">Street Address *</label>
+                                <input type="text" class="form-control" id="address" name="address" required>
+                                <div class="invalid-feedback">Please enter your street address.</div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city" class="form-label">City *</label>
+                                    <input type="text" class="form-control" id="city" name="city" required>
+                                    <div class="invalid-feedback">Please enter your city.</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="postalCode" class="form-label">Postal Code *</label>
+                                    <input type="text" class="form-control" id="postalCode" name="postalCode" required>
+                                    <div class="invalid-feedback">Please enter a valid postal code (4-6 digits).</div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="country" class="form-label">Country *</label>
+                                <select class="form-control" id="country" name="country" required>
+                                    <option value="">Select Country</option>
+                                    <option value="US">United States</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="UK">United Kingdom</option>
+                                    <option value="AU">Australia</option>
+                                </select>
+                                <div class="invalid-feedback">Please select your country.</div>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Method -->
+                        <div class="form-section">
+                            <h3>Shipping Method</h3>
+                            <div class="shipping-options">
+                                <label class="shipping-option">
+                                    <input type="radio" name="shipping" value="standard" checked>
+                                    <span class="radio-label">
+                                        <strong>Standard Shipping</strong>
+                                        <span>5-7 business days - Free</span>
+                                    </span>
+                                </label>
+                                
+                                <label class="shipping-option">
+                                    <input type="radio" name="shipping" value="express">
+                                    <span class="radio-label">
+                                        <strong>Express Shipping</strong>
+                                        <span>2-3 business days - $15.00</span>
+                                    </span>
+                                </label>
+                                
+                                <label class="shipping-option">
+                                    <input type="radio" name="shipping" value="overnight">
+                                    <span class="radio-label">
+                                        <strong>Overnight Shipping</strong>
+                                        <span>Next business day - $25.00</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="form-section">
+                            <h3>Payment Method *</h3>
+                            <div class="payment-options">
+                                <div class="payment-tabs">
+                                    <button type="button" class="payment-tab active" data-tab="credit-card">Credit Card</button>
+                                    <button type="button" class="payment-tab" data-tab="paypal">PayPal</button>
+                                    <button type="button" class="payment-tab" data-tab="apple-pay">Apple Pay</button>
+                                </div>
+                                
+                                <!-- Credit Card Form -->
+                                <div class="payment-content active" id="credit-card">
+                                    <div class="form-group">
+                                        <label for="cardNumber" class="form-label">Card Number *</label>
+                                        <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                                        <div class="invalid-feedback">Please enter a valid card number.</div>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="expiryDate" class="form-label">Expiry Date *</label>
+                                            <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" maxlength="5">
+                                            <div class="invalid-feedback">Please enter a valid expiry date (MM/YY).</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cvv" class="form-label">CVV *</label>
+                                            <input type="text" class="form-control" id="cvv" placeholder="123" maxlength="3">
+                                            <div class="invalid-feedback">Please enter a valid CVV (3 digits).</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="cardName" class="form-label">Name on Card *</label>
+                                        <input type="text" class="form-control" id="cardName">
+                                        <div class="invalid-feedback">Please enter the name on your card.</div>
+                                    </div>
+                                    
+                                    <div class="card-icons">
+                                        <img src="https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/visa.svg" alt="Visa" width="40">
+                                        <img src="https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/mastercard.svg" alt="Mastercard" width="40">
+                                        <img src="https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/amex.svg" alt="American Express" width="40">
+                                    </div>
+                                </div>
+                                
+                                <!-- PayPal -->
+                                <div class="payment-content" id="paypal">
+                                    <div class="payment-method-info">
+                                        <p>You will be redirected to PayPal to complete your payment securely.</p>
+                                        <button type="button" class="btn btn-paypal">
+                                            <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="PayPal" width="20">
+                                            Pay with PayPal
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Apple Pay -->
+                                <div class="payment-content" id="apple-pay">
+                                    <div class="payment-method-info">
+                                        <p>Complete your purchase quickly and securely with Apple Pay.</p>
+                                        <button type="button" class="btn btn-apple-pay">
+                                            <img src="https://developer.apple.com/design/human-interface-guidelines/apple-pay/images/ApplePay_Button_Icon_White_2x.png" alt="Apple Pay" width="20">
+                                            Pay with Apple Pay
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback payment-method-error">Please select a payment method.</div>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="form-section">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="terms" required>
+                                <span>I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a> *</span>
+                            </label>
+                            <div class="invalid-feedback terms-error">You must agree to the terms and conditions.</div>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="newsletter">
+                                <span>Subscribe to our newsletter for exclusive offers and golf tips</span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-large">Complete Order</button>
+                    </form>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h3>Order Summary</h3>
+                    <div id="order-items">
+                        <!-- Items will be populated by JavaScript -->
+                    </div>
+                    
+                    <div class="summary-details">
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="subtotal">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span id="shipping-cost">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax</span>
+                            <span id="tax">$0.00</span>
+                        </div>
+                        <div class="summary-row total">
+                            <strong>Total</strong>
+                            <strong id="order-total">$0.00</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="security-badges">
+                        <div class="security-item">
+                            <span>🔒 Secure Checkout</span>
+                        </div>
+                        <div class="security-item">
+                            <span>✓ 30-Day Returns</span>
+                        </div>
+                        <div class="security-item">
+                            <span>⭐ Price Match Guarantee</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h5>About 1GOLF BeGOLF</h5>
+                    <p>1GOLF BeGOLF offers the best golfing experience with premium courses and services. Join our club today!</p>
+                </div>
+                <div class="footer-column">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="product.html">Shop</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="checkout.html">Checkout</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h5>Contact Us</h5>
+                    <p>Email: support@1golfbegolf.com</p>
+                    <p>Phone: +123-456-7890</p>
+                    <p>Address: 123 Fairway Dr, City, Country</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 1GOLF BeGOLF. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // jQuery Validation Code
+        $(document).ready(function() {
+            let currentPaymentMethod = 'credit-card';
+            
+            // Payment tabs functionality
+            $('.payment-tab').on('click', function() {
+                $('.payment-tab').removeClass('active');
+                $('.payment-content').removeClass('active');
+                
+                $(this).addClass('active');
+                currentPaymentMethod = $(this).data('tab');
+                $('#' + currentPaymentMethod).addClass('active');
+                
+                // Clear payment method validation
+                $('.payment-method-error').hide();
+            });
+            
+            // Format card number
+            $('#cardNumber').on('input', function() {
+                let value = $(this).val().replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+                let formattedValue = value.match(/.{1,4}/g)?.join(' ');
+                $(this).val(formattedValue || value);
+            });
+            
+            // Format expiry date
+            $('#expiryDate').on('input', function() {
+                let value = $(this).val().replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2);
+                }
+                $(this).val(value);
+            });
+            
+            // Real-time validation
+            function validateField(field, value) {
+                let isValid = true;
+                let errorMessage = '';
+                
+                switch(field.attr('id')) {
+                    case 'fullName':
+                        isValid = value.length >= 3;
+                        errorMessage = 'Please enter your full name (at least 3 characters).';
+                        break;
+                    case 'email':
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        isValid = emailRegex.test(value);
+                        errorMessage = 'Please enter a valid email address.';
+                        break;
+                    case 'phone':
+                        const phoneRegex = /^\d+$/;
+                        isValid = phoneRegex.test(value) && value.length >= 10;
+                        errorMessage = 'Please enter a valid phone number (digits only, at least 10 digits).';
+                        break;
+                    case 'address':
+                        isValid = value.trim().length > 0;
+                        errorMessage = 'Please enter your street address.';
+                        break;
+                    case 'city':
+                        isValid = value.trim().length > 0;
+                        errorMessage = 'Please enter your city.';
+                        break;
+                    case 'postalCode':
+                        const postalRegex = /^\d+$/;
+                        isValid = postalRegex.test(value) && value.length >= 4 && value.length <= 6;
+                        errorMessage = 'Please enter a valid postal code (4-6 digits).';
+                        break;
+                    case 'country':
+                        isValid = value !== '';
+                        errorMessage = 'Please select your country.';
+                        break;
+                    case 'cardNumber':
+                        if (currentPaymentMethod === 'credit-card') {
+                            const cardRegex = /^\d{4} \d{4} \d{4} \d{4}$/;
+                            isValid = cardRegex.test(value);
+                            errorMessage = 'Please enter a valid card number.';
+                        }
+                        break;
+                    case 'expiryDate':
+                        if (currentPaymentMethod === 'credit-card') {
+                            const expiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+                            isValid = expiryRegex.test(value);
+                            errorMessage = 'Please enter a valid expiry date (MM/YY).';
+                        }
+                        break;
+                    case 'cvv':
+                        if (currentPaymentMethod === 'credit-card') {
+                            const cvvRegex = /^\d{3}$/;
+                            isValid = cvvRegex.test(value);
+                            errorMessage = 'Please enter a valid CVV (3 digits).';
+                        }
+                        break;
+                    case 'cardName':
+                        if (currentPaymentMethod === 'credit-card') {
+                            isValid = value.trim().length >= 3;
+                            errorMessage = 'Please enter the name on your card.';
+                        }
+                        break;
+                }
+                
+                return { isValid, errorMessage };
+            }
+            
+            // Real-time validation on input
+            $('input, select').on('blur', function() {
+                const field = $(this);
+                const value = field.val().trim();
+                const validation = validateField(field, value);
+                
+                if (validation.isValid) {
+                    field.removeClass('is-invalid');
+                    field.addClass('is-valid');
+                    field.next('.invalid-feedback').hide();
+                } else {
+                    field.removeClass('is-valid');
+                    field.addClass('is-invalid');
+                    field.next('.invalid-feedback').text(validation.errorMessage).show();
+                }
+            });
+            
+            // Real-time validation for select elements
+            $('#country').on('change', function() {
+                const field = $(this);
+                const value = field.val();
+                const validation = validateField(field, value);
+                
+                if (validation.isValid) {
+                    field.removeClass('is-invalid');
+                    field.addClass('is-valid');
+                    field.next('.invalid-feedback').hide();
+                } else {
+                    field.removeClass('is-valid');
+                    field.addClass('is-invalid');
+                    field.next('.invalid-feedback').text(validation.errorMessage).show();
+                }
+            });
+            
+            // Form submission
+            $('#checkoutForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                let isValid = true;
+                let firstErrorField = null;
+                
+                // Validate all required fields
+                const fieldsToValidate = [
+                    '#fullName', '#email', '#phone', '#address', '#city', '#postalCode', '#country'
+                ];
+                
+                fieldsToValidate.forEach(selector => {
+                    const field = $(selector);
+                    const value = field.val().trim();
+                    const validation = validateField(field, value);
+                    
+                    if (!validation.isValid) {
+                        isValid = false;
+                        field.removeClass('is-valid');
+                        field.addClass('is-invalid');
+                        field.next('.invalid-feedback').text(validation.errorMessage).show();
+                        
+                        if (!firstErrorField) {
+                            firstErrorField = field;
+                        }
+                    } else {
+                        field.removeClass('is-invalid');
+                        field.addClass('is-valid');
+                        field.next('.invalid-feedback').hide();
+                    }
+                });
+                
+                // Validate payment method
+                if (!currentPaymentMethod) {
+                    isValid = false;
+                    $('.payment-method-error').show();
+                } else {
+                    $('.payment-method-error').hide();
+                }
+                
+                // Validate credit card fields if credit card is selected
+                if (currentPaymentMethod === 'credit-card') {
+                    const cardFields = ['#cardNumber', '#expiryDate', '#cvv', '#cardName'];
+                    
+                    cardFields.forEach(selector => {
+                        const field = $(selector);
+                        const value = field.val().trim();
+                        const validation = validateField(field, value);
+                        
+                        if (!validation.isValid) {
+                            isValid = false;
+                            field.removeClass('is-valid');
+                            field.addClass('is-invalid');
+                            field.next('.invalid-feedback').text(validation.errorMessage).show();
+                            
+                            if (!firstErrorField) {
+                                firstErrorField = field;
+                            }
+                        } else {
+                            field.removeClass('is-invalid');
+                            field.addClass('is-valid');
+                            field.next('.invalid-feedback').hide();
+                        }
+                    });
+                }
+                
+                // Validate terms and conditions
+                if (!$('#terms').is(':checked')) {
+                    isValid = false;
+                    $('.terms-error').show();
+                    if (!firstErrorField) {
+                        firstErrorField = $('#terms');
+                    }
+                } else {
+                    $('.terms-error').hide();
+                }
+                
+                if (isValid) {
+                    // Simulate successful form submission
+                    alert('Thank you for your order! Your payment has been processed successfully.');
+                    
+                    // Clear cart and redirect
+                    localStorage.removeItem('golfCart');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                } else {
+                    // Scroll to first error field
+                    if (firstErrorField) {
+                        $('html, body').animate({
+                            scrollTop: firstErrorField.offset().top - 100
+                        }, 500);
+                    }
+                }
+            });
+            
+            // Load cart and update order summary
+            function updateOrderSummary() {
+                const cart = JSON.parse(localStorage.getItem('golfCart')) || [];
+                const orderItems = $('#order-items');
+                const subtotalElement = $('#subtotal');
+                const shippingCostElement = $('#shipping-cost');
+                const taxElement = $('#tax');
+                const orderTotalElement = $('#order-total');
+                
+                // Calculate subtotal
+                let subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+                
+                // Calculate shipping
+                let shippingCost = 0;
+                const selectedShipping = $('input[name="shipping"]:checked').val();
+                if (selectedShipping === 'express') shippingCost = 15;
+                else if (selectedShipping === 'overnight') shippingCost = 25;
+                
+                // Calculate tax (8%)
+                let tax = subtotal * 0.08;
+                
+                // Calculate total
+                let total = subtotal + shippingCost + tax;
+                
+                // Update display
+                orderItems.empty();
+                cart.forEach(item => {
+                    orderItems.append(`
+                        <div class="order-item">
+                            <span>${item.product}</span>
+                            <span>$${item.price.toFixed(2)}</span>
+                        </div>
+                    `);
+                });
+                
+                subtotalElement.text(`$${subtotal.toFixed(2)}`);
+                shippingCostElement.text(shippingCost === 0 ? 'FREE' : `$${shippingCost.toFixed(2)}`);
+                taxElement.text(`$${tax.toFixed(2)}`);
+                orderTotalElement.text(`$${total.toFixed(2)}`);
+            }
+            
+            // Update order summary when shipping changes
+            $('input[name="shipping"]').on('change', updateOrderSummary);
+            
+            // Initialize order summary
+            updateOrderSummary();
+        });
+    </script>
+</body>
+</html>
