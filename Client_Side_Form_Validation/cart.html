@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - 1GOLF BeGOLF</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">
+                <img src="https://themes.muffingroup.com/be/golf/wp-content/uploads/2015/04/golf.png" alt="1GOLF Logo">
+            </div>
+            <nav class="navbar">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="product.html" class="nav-link">Shop</a>
+                <a href="cart.html" class="nav-link active">Cart</a>
+                <a href="checkout.html" class="nav-link">Checkout</a>
+                <a href="#" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Cart Section -->
+    <section class="cart-section">
+        <div class="container">
+            <h1 class="text-center">Your Shopping Cart</h1>
+            
+            <div class="cart-container">
+                <div id="cart-content">
+                    <!-- Cart items will be loaded here -->
+                </div>
+                
+                <div class="cart-actions">
+                    <a href="product.html" class="btn btn-outline">Continue Shopping</a>
+                    <a href="checkout.html" class="btn btn-primary" id="checkout-btn">Proceed to Checkout</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h5>About 1GOLF BeGOLF</h5>
+                    <p>1GOLF BeGOLF offers the best golfing experience with premium courses and services. Join our club today!</p>
+                </div>
+                <div class="footer-column">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="product.html">Shop</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                        <li><a href="checkout.html">Checkout</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h5>Contact Us</h5>
+                    <p>Email: support@1golfbegolf.com</p>
+                    <p>Phone: +123-456-7890</p>
+                    <p>Address: 123 Fairway Dr, City, Country</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 1GOLF BeGOLF. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Load cart from localStorage
+        let cart = JSON.parse(localStorage.getItem('golfCart')) || [];
+        const cartContent = document.getElementById('cart-content');
+        const checkoutBtn = document.getElementById('checkout-btn');
+
+        function updateCartDisplay() {
+            if (cart.length === 0) {
+                cartContent.innerHTML = `
+                    <div class="empty-cart">
+                        <h3>Your cart is empty</h3>
+                        <p>Browse our products and add some items to your cart!</p>
+                    </div>
+                `;
+                checkoutBtn.style.display = 'none';
+            } else {
+                let cartHTML = `
+                    <div class="cart-items">
+                        <div class="cart-header">
+                            <span>Product</span>
+                            <span>Price</span>
+                            <span>Action</span>
+                        </div>
+                `;
+                
+                let total = 0;
+                
+                cart.forEach((item, index) => {
+                    cartHTML += `
+                        <div class="cart-item">
+                            <span class="product-name">${item.product}</span>
+                            <span class="product-price">$${item.price.toFixed(2)}</span>
+                            <button class="btn-remove" data-index="${index}">Remove</button>
+                        </div>
+                    `;
+                    total += item.price;
+                });
+                
+                cartHTML += `
+                    </div>
+                    <div class="cart-total">
+                        <strong>Total: $${total.toFixed(2)}</strong>
+                    </div>
+                `;
+                
+                cartContent.innerHTML = cartHTML;
+                checkoutBtn.style.display = 'inline-block';
+                
+                // Add event listeners to remove buttons
+                document.querySelectorAll('.btn-remove').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        cart.splice(index, 1);
+                        localStorage.setItem('golfCart', JSON.stringify(cart));
+                        updateCartDisplay();
+                    });
+                });
+            }
+        }
+
+        // Initialize cart display
+        updateCartDisplay();
+    </script>
+</body>
+</html>
