@@ -1,0 +1,203 @@
+<!-- Search and Filter Bar -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form id="searchForm" class="row g-3">
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="search" placeholder="Search products..." 
+                       value="<%= search %>">
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="category">
+                    <option value="">All Categories</option>
+                    <% categories.forEach(cat => { %>
+                        <option value="<%= cat %>" <%= currentCategory === cat ? 'selected' : '' %>>
+                            <%= cat %>
+                        </option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-search"></i> Filter
+                </button>
+            </div>
+            <div class="col-md-3 text-end">
+                <a href="/admin/products/add" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Add New Product
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Products Table -->
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Products (<%= totalProducts %>)</h5>
+        <div class="d-flex gap-2">
+            <select id="limitSelect" class="form-select form-select-sm w-auto">
+                <option value="10" <%= limit === 10 ? 'selected' : '' %>>10 per page</option>
+                <option value="25" <%= limit === 25 ? 'selected' : '' %>>25 per page</option>
+                <option value="50" <%= limit === 50 ? 'selected' : '' %>>50 per page</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (products.length > 0) { %>
+                        <% products.forEach((product, index) => { %>
+                            <tr>
+                                <td><%= (currentPage - 1) * limit + index + 1 %></td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <% if (product.image) { %>
+                                            <img src="<%= product.image %>" alt="<%= product.name %>" 
+                                                 class="product-thumb me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                        <% } %>
+                                        <div>
+                                            <strong><%= product.name %></strong>
+                                            <% if (product.featured) { %>
+                                                <span class="badge bg-warning ms-2">Featured</span>
+                                            <% } %>
+                                            <br>
+                                            <small class="text-muted"><%= product.description?.substring(0, 50) %>...</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge bg-info"><%= product.category %></span>
+                                </td>
+                                <td>
+                                    <strong>$<%= product.price.toFixed(2) %></strong>
+                                </td>
+                                <td>
+                                    <span class="badge <%= product.stock > 10 ? 'bg-success' : product.stock > 0 ? 'bg-warning' : 'bg-danger' %>">
+                                        <%= product.stock %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <% if (product.stock > 10) { %>
+                                        <span class="badge bg-success">In Stock</span>
+                                    <% } else if (product.stock > 0) { %>
+                                        <span class="badge bg-warning">Low Stock</span>
+                                    <% } else { %>
+                                        <span class="badge bg-danger">Out of Stock</span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="/admin/products/edit/<%= product._id %>" class="btn btn-warning">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <button class="btn btn-danger delete-product" data-id="<%= product._id %>" data-name="<%= product.name %>">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                        <a href="/shop?product=<%= product._id %>" class="btn btn-info" target="_blank">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <div class="text-muted">
+                                    <i class="bi bi-box-seam display-6"></i>
+                                    <h5 class="mt-3">No products found</h5>
+                                    <p>Try changing your search criteria or add a new product.</p>
+                                    <a href="/admin/products/add" class="btn btn-success">Add Your First Product</a>
+                                </div>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        <% if (totalPages > 1) { %>
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <% if (hasPrevPage) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="/admin/products?page=<%= prevPage %><%= search ? '&search=' + search : '' %><%= currentCategory ? '&category=' + currentCategory : '' %>&limit=<%= limit %>">
+                                Previous
+                            </a>
+                        </li>
+                    <% } %>
+                    
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                            <a class="page-link" href="/admin/products?page=<%= i %><%= search ? '&search=' + search : '' %><%= currentCategory ? '&category=' + currentCategory : '' %>&limit=<%= limit %>">
+                                <%= i %>
+                            </a>
+                        </li>
+                    <% } %>
+                    
+                    <% if (hasNextPage) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="/admin/products?page=<%= nextPage %><%= search ? '&search=' + search : '' %><%= currentCategory ? '&category=' + currentCategory : '' %>&limit=<%= limit %>">
+                                Next
+                            </a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        <% } %>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Limit change handler
+    $('#limitSelect').change(function() {
+        const limit = $(this).val();
+        const url = new URL(window.location.href);
+        url.searchParams.set('limit', limit);
+        url.searchParams.set('page', 1); // Reset to first page
+        window.location.href = url.toString();
+    });
+    
+    // Delete product handler
+    $('.delete-product').click(function() {
+        const productId = $(this).data('id');
+        const productName = $(this).data('name');
+        
+        if (confirm(`Are you sure you want to delete "${productName}"?`)) {
+            $.ajax({
+                url: `/admin/api/products/${productId}`,
+                method: 'DELETE',
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success(response.message);
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    toastr.error('Error deleting product');
+                    console.error('Delete error:', error);
+                }
+            });
+        }
+    });
+});
+</script>
