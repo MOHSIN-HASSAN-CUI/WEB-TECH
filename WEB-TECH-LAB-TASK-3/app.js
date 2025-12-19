@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const path = require('path');
+const mainController = require('./controllers/mainController');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,22 +23,10 @@ const mainRoutes = require('./routes/mainRoutes');
 app.use('/', mainRoutes);
 
 // 404 handler
-app.use((req, res) => {
-    res.status(404).render('pages/404', { 
-        title: 'Page Not Found',
-        layout: 'layouts/main-layout'
-    });
-});
+app.use(mainController.get404Page);
 
 // Error handler
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).render('pages/error', {
-        title: 'Server Error',
-        error: err,
-        layout: 'layouts/main-layout'
-    });
-});
+app.use(mainController.getErrorPage);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

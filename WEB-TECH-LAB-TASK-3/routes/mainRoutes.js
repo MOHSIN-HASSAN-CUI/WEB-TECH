@@ -1,44 +1,19 @@
 const express = require('express');
 const router = express.Router();
+const mainController = require('../controllers/mainController');
 
-// Home page
-router.get('/', (req, res) => {
-    res.render('pages/index', { 
-        title: '1GOLF - BeGOLF Home',
-        activePage: 'home'
-    });
-});
+// Page routes
+router.get('/', mainController.getHomePage);
+router.get('/shop', mainController.getShopPage);
+router.get('/cart', mainController.getCartPage);
+router.get('/checkout', mainController.getCheckoutPage);
+router.get('/admin/products', mainController.getAdminProductsPage);
 
-// Shop page
-router.get('/shop', (req, res) => {
-    res.render('pages/products', { 
-        title: 'Products - 1GOLF BeGOLF',
-        activePage: 'shop'
-    });
-});
-
-// Cart page
-router.get('/cart', (req, res) => {
-    res.render('pages/cart', { 
-        title: 'Cart - 1GOLF BeGOLF',
-        activePage: 'cart'
-    });
-});
-
-// Checkout page
-router.get('/checkout', (req, res) => {
-    res.render('pages/checkout', { 
-        title: 'Checkout - 1GOLF BeGOLF',
-        activePage: 'checkout'
-    });
-});
-
-// Admin page (Products CRUD)
-router.get('/admin/products', (req, res) => {
-    res.render('pages/products-crud', { 
-        title: 'Product Management - 1GOLF BeGOLF',
-        activePage: 'admin'
-    });
-});
+// API routes for products
+router.get('/api/products', mainController.getAllProductsAPI);
+router.get('/api/products/:id', mainController.getProductByIdAPI);
+router.post('/api/products', mainController.createProductAPI);
+router.put('/api/products/:id', mainController.updateProductAPI);
+router.delete('/api/products/:id', mainController.deleteProductAPI);
 
 module.exports = router;

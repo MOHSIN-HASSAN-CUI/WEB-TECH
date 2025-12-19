@@ -52,29 +52,25 @@
     <div class="container">
         <h2 class="text-center">Featured Products</h2>
         <p class="text-center section-subtitle">Check out our best-selling golf equipment</p>
-        
         <div class="featured-grid">
-            <div class="featured-product">
-                <img src="https://images.unsplash.com/photo-1592924688931-7ef8c6e1c3b3?w=300&h=200&fit=crop" alt="Professional Golf Clubs">
-                <h4>Professional Clubs Set</h4>
-                <p class="price">$899.99</p>
-                <a href="/shop" class="btn btn-outline">View Details</a>
-            </div>
-            
-            <div class="featured-product">
-                <img src="https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=300&h=200&fit=crop" alt="Golf GPS Watch">
-                <h4>GPS Smart Watch</h4>
-                <p class="price">$249.99</p>
-                <a href="/shop" class="btn btn-outline">View Details</a>
-            </div>
-            
-            <div class="featured-product">
-                <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=300&h=200&fit=crop" alt="Golf Bag">
-                <h4>Pro Series Bag</h4>
-                <p class="price">$199.99</p>
-                <a href="/shop" class="btn btn-outline">View Details</a>
-            </div>
+            <% if (featuredProducts && featuredProducts.length > 0) { %>
+                <% featuredProducts.forEach(product => { %>
+                    <div class="featured-product">
+                        <img src="<%= product.image %>" alt="<%= product.name %>">
+                        <h4><%= product.name %></h4>
+                        <p class="price">$<%= product.price.toFixed(2) %></p>
+                        <a href="/shop" class="btn btn-outline">View Details</a>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No featured products available.</p>
+            <% } %>
         </div>
+        <div class="text-center" style="margin-top: 40px;">
+            <a href="/shop" class="btn btn-primary">View All Products</a>
+        </div>
+    </div>
+</section>
         
         <div class="text-center" style="margin-top: 40px;">
             <a href="/shop" class="btn btn-primary">View All Products</a>

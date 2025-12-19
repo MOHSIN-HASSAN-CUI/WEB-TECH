@@ -116,7 +116,7 @@
 <script>
     // CRUD JavaScript for Admin Page
     $(document).ready(function() {
-        const API_BASE_URL = 'https://jsonplaceholder.typicode.com';
+        const API_BASE_URL = '';
         let products = [];
         let editMode = false;
 
@@ -140,33 +140,23 @@
         }
 
         function loadProducts() {
-            showLoading(true);
-            
-            $.ajax({
-                url: `${API_BASE_URL}/posts`,
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Transform API data to our product structure
-                    products = data.slice(0, 10).map((post, index) => ({
-                        id: post.id,
-                        name: `Golf ${post.title.split(' ')[0]}`,
-                        price: (Math.random() * 500 + 10).toFixed(2),
-                        category: ['Clubs', 'Balls', 'Accessories', 'Apparel', 'Shoes'][index % 5],
-                        stock: Math.floor(Math.random() * 100),
-                        description: post.body
-                    }));
-                    
-                    displayProducts();
-                    showLoading(false);
-                    showToast('Products loaded successfully!', 'success');
-                },
-                error: function(xhr, status, error) {
-                    showLoading(false);
-                    showToast('Error loading products: ' + error, 'error');
-                }
-            });
+    showLoading(true);
+    $.ajax({
+        url: '/api/products',  // Changed from external API to our own endpoint
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            products = data;
+            displayProducts();
+            showLoading(false);
+            showToast('Products loaded successfully!', 'success');
+        },
+        error: function(xhr, status, error) {
+            showLoading(false);
+            showToast('Error loading products: ' + error, 'error');
         }
+    });
+}
 
         function displayProducts() {
             const tbody = $('#products-table-body');
@@ -260,37 +250,26 @@
         }
 
         function createProduct(productData) {
-            showSubmitLoading(true);
-            
-            // Since JSONPlaceholder doesn't actually create data, we'll simulate it
-            $.ajax({
-                url: `${API_BASE_URL}/posts`,
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    title: productData.name,
-                    body: productData.description,
-                    userId: 1
-                }),
-                success: function(response) {
-                    // Add the new product to our local array with the response ID
-                    const newProduct = {
-                        ...productData,
-                        id: response.id
-                    };
-                    products.unshift(newProduct);
-                    
-                    displayProducts();
-                    resetForm();
-                    showSubmitLoading(false);
-                    showToast('Product created successfully!', 'success');
-                },
-                error: function(xhr, status, error) {
-                    showSubmitLoading(false);
-                    showToast('Error creating product: ' + error, 'error');
-                }
-            });
+    showSubmitLoading(true);
+    $.ajax({
+        url: '/api/products',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(productData),
+        success: function(response) {
+            products.unshift(response);
+            displayProducts();
+            resetForm();
+            showSubmitLoading(false);
+            showToast('Product created successfully!', 'success');
+        },
+        error: function(xhr, status, error) {
+            showSubmitLoading(false);
+            showToast('Error creating product: ' + error, 'error');
         }
+    });
+}
+
 
         function handleEdit(e) {
             const productId = parseInt($(e.target).data('id'));
@@ -324,37 +303,29 @@
         }
 
         function updateProduct(productData) {
-            showSubmitLoading(true);
-            const productId = parseInt($('#productId').val());
-            
-            $.ajax({
-                url: `${API_BASE_URL}/posts/${productId}`,
-                method: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    id: productId,
-                    title: productData.name,
-                    body: productData.description,
-                    userId: 1
-                }),
-                success: function(response) {
-                    // Update product in local array
-                    const index = products.findIndex(p => p.id === productId);
-                    if (index !== -1) {
-                        products[index] = { ...productData, id: productId };
-                        displayProducts();
-                    }
-                    
-                    resetForm();
-                    showSubmitLoading(false);
-                    showToast('Product updated successfully!', 'success');
-                },
-                error: function(xhr, status, error) {
-                    showSubmitLoading(false);
-                    showToast('Error updating product: ' + error, 'error');
-                }
-            });
+    showSubmitLoading(true);
+    const productId = parseInt($('#productId').val());
+    $.ajax({
+        url: `/api/products/${productId}`,
+        method: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(productData),
+        success: function(response) {
+            const index = products.findIndex(p => p.id === productId);
+            if (index !== -1) {
+                products[index] = response;
+                displayProducts();
+            }
+            resetForm();
+            showSubmitLoading(false);
+            showToast('Product updated successfully!', 'success');
+        },
+        error: function(xhr, status, error) {
+            showSubmitLoading(false);
+            showToast('Error updating product: ' + error, 'error');
         }
+    });
+}
 
         function handleDelete(e) {
             const productId = parseInt($(e.target).data('id'));
@@ -366,20 +337,19 @@
         }
 
         function deleteProduct(productId) {
-            $.ajax({
-                url: `${API_BASE_URL}/posts/${productId}`,
-                method: 'DELETE',
-                success: function() {
-                    // Remove product from local array
-                    products = products.filter(p => p.id !== productId);
-                    displayProducts();
-                    showToast('Product deleted successfully!', 'success');
-                },
-                error: function(xhr, status, error) {
-                    showToast('Error deleting product: ' + error, 'error');
-                }
-            });
+    $.ajax({
+        url: `/api/products/${productId}`,
+        method: 'DELETE',
+        success: function() {
+            products = products.filter(p => p.id !== productId);
+            displayProducts();
+            showToast('Product deleted successfully!', 'success');
+        },
+        error: function(xhr, status, error) {
+            showToast('Error deleting product: ' + error, 'error');
         }
+    });
+}
 
         function resetForm() {
             editMode = false;

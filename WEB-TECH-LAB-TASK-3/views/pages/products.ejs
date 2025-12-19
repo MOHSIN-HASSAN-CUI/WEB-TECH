@@ -5,109 +5,46 @@
         <p class="text-center section-subtitle">Premium golf gear for professionals and enthusiasts</p>
         
         <div class="products-grid">
-            <!-- Product 1 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1592924688931-7ef8c6e1c3b3?w=400&h=300&fit=crop" alt="Professional Golf Clubs Set">
-                    <span class="product-badge">Bestseller</span>
-                </div>
-                <div class="product-info">
-                    <h3>Professional Golf Clubs Set</h3>
-                    <p class="product-description">Complete 14-piece set with driver, irons, wedges, and putter. Perfect for serious players.</p>
-                    <div class="product-price">$899.99</div>
-                    <div class="product-rating">
-                        ★★★★☆ <span class="rating-count">(128 reviews)</span>
+            <% if (products && products.length > 0) { %>
+                <% products.forEach(product => { %>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="<%= product.image %>" alt="<%= product.name %>">
+                            <% if (product.id === 1) { %>
+                                <span class="product-badge">Bestseller</span>
+                            <% } else if (product.id === 2) { %>
+                                <span class="product-badge">New</span>
+                            <% } else if (product.id === 5) { %>
+                                <span class="product-badge">Sale</span>
+                            <% } %>
+                        </div>
+                        <div class="product-info">
+                            <h3><%= product.name %></h3>
+                            <p class="product-description"><%= product.description %></p>
+                            <div class="product-price">
+                                <% if (product.id === 5) { %>
+                                    <span class="original-price">$129.99</span>
+                                    <span class="sale-price">$<%= product.price.toFixed(2) %></span>
+                                <% } else { %>
+                                    $<%= product.price.toFixed(2) %>
+                                <% } %>
+                            </div>
+                            <div class="product-rating">
+                                ★★★★☆ <span class="rating-count">(<%= Math.floor(Math.random() * 100) + 20 %> reviews)</span>
+                            </div>
+                            <button class="btn btn-primary add-to-cart" 
+                                    data-product="<%= product.name %>" 
+                                    data-price="<%= product.price %>">
+                                Add to Cart
+                            </button>
+                        </div>
                     </div>
-                    <button class="btn btn-primary add-to-cart" data-product="Professional Golf Clubs Set" data-price="899.99">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product 2 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=400&h=300&fit=crop" alt="Golf GPS Smart Watch">
-                    <span class="product-badge">New</span>
-                </div>
-                <div class="product-info">
-                    <h3>Golf GPS Smart Watch</h3>
-                    <p class="product-description">Advanced GPS tracking, swing analysis, and 10-day battery life.</p>
-                    <div class="product-price">$249.99</div>
-                    <div class="product-rating">
-                        ★★★★★ <span class="rating-count">(64 reviews)</span>
-                    </div>
-                    <button class="btn btn-primary add-to-cart" data-product="Golf GPS Smart Watch" data-price="249.99">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product 3 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?w=400&h=300&fit=crop" alt="Premium Golf Balls (12-pack)">
-                </div>
-                <div class="product-info">
-                    <h3>Premium Golf Balls (12-pack)</h3>
-                    <p class="product-description">Tour-level performance with exceptional distance and control.</p>
-                    <div class="product-price">$49.99</div>
-                    <div class="product-rating">
-                        ★★★★☆ <span class="rating-count">(89 reviews)</span>
-                    </div>
-                    <button class="btn btn-primary add-to-cart" data-product="Premium Golf Balls (12-pack)" data-price="49.99">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product 4 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop" alt="Golf Bag Pro Series">
-                </div>
-                <div class="product-info">
-                    <h3>Golf Bag Pro Series</h3>
-                    <p class="product-description">14-way divider, waterproof pockets, and comfortable dual straps.</p>
-                    <div class="product-price">$199.99</div>
-                    <div class="product-rating">
-                        ★★★★☆ <span class="rating-count">(42 reviews)</span>
-                    </div>
-                    <button class="btn btn-primary add-to-cart" data-product="Golf Bag Pro Series" data-price="199.99">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product 5 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=400&h=300&fit=crop" alt="Golf Shoes Waterproof">
-                    <span class="product-badge">Sale</span>
-                </div>
-                <div class="product-info">
-                    <h3>Golf Shoes Waterproof</h3>
-                    <p class="product-description">Spikeless design, all-weather grip, and maximum comfort.</p>
-                    <div class="product-price">
-                        <span class="original-price">$129.99</span>
-                        <span class="sale-price">$99.99</span>
-                    </div>
-                    <div class="product-rating">
-                        ★★★★★ <span class="rating-count">(156 reviews)</span>
-                    </div>
-                    <button class="btn btn-primary add-to-cart" data-product="Golf Shoes Waterproof" data-price="99.99">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product 6 -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1591134449320-1e3f0df9e7ec?w=400&h=300&fit=crop" alt="Rangefinder Pro 1000">
-                </div>
-                <div class="product-info">
-                    <h3>Rangefinder Pro 1000</h3>
-                    <p class="product-description">Pin-seeking technology with 6x magnification and slope adjustment.</p>
-                    <div class="product-price">$299.99</div>
-                    <div class="product-rating">
-                        ★★★★☆ <span class="rating-count">(73 reviews)</span>
-                    </div>
-                    <button class="btn btn-primary add-to-cart" data-product="Rangefinder Pro 1000" data-price="299.99">Add to Cart</button>
-                </div>
-            </div>
+                <% }); %>
+            <% } else { %>
+                <p class="text-center">No products available at the moment.</p>
+            <% } %>
         </div>
-
+        
         <!-- Cart Summary -->
         <div class="cart-summary">
             <h3>Your Cart</h3>
