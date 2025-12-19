@@ -1,0 +1,14 @@
+<div class="container text-center" style="padding: 100px 0;">
+    <h1 class="display-1">500</h1>
+    <h2>Server Error</h2>
+    <p class="lead">Something went wrong on our end. Please try again later.</p>
+    
+    <!-- Fixed line: Check if NODE_ENV exists before using it -->
+    <% if (error && (typeof NODE_ENV !== 'undefined' && NODE_ENV === 'development')) { %>
+    <div class="alert alert-danger mt-3">
+        <strong>Error Details:</strong> <%= error.message %>
+    </div>
+    <% } %>
+    
+    <a href="/" class="btn btn-primary">Go Back Home</a>
+</div>

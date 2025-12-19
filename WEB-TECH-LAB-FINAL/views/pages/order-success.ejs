@@ -1,0 +1,86 @@
+<section class="order-success-section">
+    <div class="container">
+        <div class="success-message text-center">
+            <div class="success-icon">
+                <i class="bi bi-check-circle"></i>
+            </div>
+            <h1>Order Confirmed!</h1>
+            <p class="lead">Thank you for your purchase. Your order has been placed successfully.</p>
+            
+            <div class="order-details-card">
+                <h3>Order Details</h3>
+                <div class="detail-row">
+                    <span>Order ID:</span>
+                    <strong><%= order.orderId %></strong>
+                </div>
+                <div class="detail-row">
+                    <span>Email:</span>
+                    <span><%= order.customerEmail %></span>
+                </div>
+                <div class="detail-row">
+                    <span>Status:</span>
+                    <span class="badge bg-primary"><%= order.status %></span>
+                </div>
+                <div class="detail-row">
+                    <span>Date:</span>
+                    <span><%= new Date(order.createdAt).toLocaleDateString() %></span>
+                </div>
+                <div class="detail-row">
+                    <span>Total Amount:</span>
+                    <strong>$<%= order.total.toFixed(2) %></strong>
+                </div>
+                
+                <% if (order.couponCode) { %>
+                    <div class="detail-row">
+                        <span>Coupon Used:</span>
+                        <span class="badge bg-success"><%= order.couponCode %></span>
+                    </div>
+                <% } %>
+            </div>
+            
+            <div class="action-buttons mt-4">
+                <a href="/my-orders?email=<%= encodeURIComponent(order.customerEmail) %>" class="btn btn-primary">
+                    View All My Orders
+                </a>
+                <a href="/shop" class="btn btn-outline-primary">
+                    Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.order-success-section {
+    padding: 60px 0;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+}
+
+.success-icon {
+    font-size: 80px;
+    color: #28a745;
+    margin-bottom: 20px;
+}
+
+.order-details-card {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    text-align: left;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+</style>

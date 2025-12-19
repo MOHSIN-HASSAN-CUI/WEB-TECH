@@ -1,0 +1,69 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h3 class="mb-0">My Orders</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Authenticated User Info -->
+                    <div class="alert alert-success mb-4">
+                        Logged in as: <strong>
+                            <%= email %>
+                        </strong>
+                    </div>
+
+                    <!-- Error Message -->
+                    <% if (error && error.length> 0) { %>
+                        <div class="alert alert-danger mt-3">
+                            <%= error %>
+                        </div>
+                        <% } %>
+
+                            <!-- Orders List -->
+                            <% if (orders && orders.length> 0) { %>
+                                <div class="orders-list">
+                                    <h4>Your Orders</h4>
+                                    <% orders.forEach(order=> { %>
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Order #<%= order.orderId %>
+                                                </h5>
+                                                <p class="card-text">
+                                                    <strong>Date:</strong>
+                                                    <%= new Date(order.createdAt).toLocaleDateString() %><br>
+                                                        <strong>Total:</strong> $<%= order.total.toFixed(2) %><br>
+                                                            <strong>Status:</strong>
+                                                            <span class="badge 
+                                                <%= order.status === 'Delivered' ? 'bg-success' : 
+                                                   order.status === 'Processing' ? 'bg-warning' : 'bg-primary' %>">
+                                                                <%= order.status %>
+                                                            </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                </div>
+                                <% } else if (email && email.length> 0) { %>
+                                    <div class="alert alert-warning mt-3">
+                                        No orders found for email: <strong>
+                                            <%= email %>
+                                        </strong>
+                                    </div>
+                                    <% } %>
+
+                                        <!-- Feature Description -->
+                                        <div class="alert alert-info mt-3">
+                                            <h6>Order History Feature</h6>
+                                            <p>This feature allows customers to:</p>
+                                            <ul class="mb-0">
+                                                <li>Enter email address to view orders</li>
+                                                <li>See all orders placed with that email</li>
+                                                <li>View Order ID, Date, Total, and Status</li>
+                                            </ul>
+                                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<nav class="navbar">
+    <a href="/" class="nav-link <%= activePage === 'home' ? 'active' : '' %>">Home</a>
+    <a href="/shop" class="nav-link <%= activePage === 'shop' ? 'active' : '' %>">Shop</a>
+    <a href="/cart" class="nav-link <%= activePage === 'cart' ? 'active' : '' %>">Cart</a>
+    <% if (locals.isAuthenticated) { %>
+        <a href="/my-orders" class="nav-link <%= activePage === 'orders' ? 'active' : '' %>">My Orders</a>
+        <a href="/logout" class="nav-link">Logout (<%= user.name %>)</a>
+        <% } else { %>
+            <a href="/login" class="nav-link <%= activePage === 'login' ? 'active' : '' %>">Login</a>
+            <a href="/register" class="nav-link <%= activePage === 'register' ? 'active' : '' %>">Register</a>
+            <% } %>
+                <a href="/checkout" class="nav-link <%= activePage === 'checkout' ? 'active' : '' %>">Checkout</a>
+                <a href="/admin/dashboard" class="nav-link <%= activePage === 'admin' ? 'active' : '' %>">Admin</a>
+</nav>
